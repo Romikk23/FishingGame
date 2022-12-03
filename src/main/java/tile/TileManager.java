@@ -4,7 +4,6 @@ import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +16,7 @@ public class TileManager {
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[10];
+        tile = new Tile[100];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
         loadMap();
@@ -35,13 +34,95 @@ public class TileManager {
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/tree.png"));
             tile[2].collision = true;
 
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water.png"));
-            tile[3].collision = true;
 
             tile[4] = new Tile();
             tile[4].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/unknown.png"));
             tile[4].collision = true;
+
+            /**      WATER      **/
+
+
+            tile[10] = new Tile();
+            tile[10].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_up.png"));
+            tile[10].collision = true;
+
+            tile[11] = new Tile();
+            tile[11].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_left_up.png"));
+            tile[11].collision = true;
+
+            tile[12] = new Tile();
+            tile[12].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_left.png"));
+            tile[12].collision = true;
+
+            tile[13] = new Tile();
+            tile[13].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_left_bottom.png"));
+            tile[13].collision = true;
+
+            tile[14] = new Tile();
+            tile[14].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_bottom.png"));
+            tile[14].collision = true;
+
+            tile[15] = new Tile();
+            tile[15].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_right_bottom.png"));
+            tile[15].collision = true;
+
+            tile[16] = new Tile();
+            tile[16].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_right.png"));
+            tile[16].collision = true;
+
+            tile[17] = new Tile();
+            tile[17].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_right_up.png"));
+            tile[17].collision = true;
+
+            tile[18] = new Tile();
+            tile[18].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water.png"));
+            tile[18].collision = true;
+
+            tile[19] = new Tile();
+            tile[19].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_angle_up_left.png"));
+            tile[19].collision = true;
+
+            tile[20] = new Tile();
+            tile[20].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_angle_bottom_left.png"));
+            tile[20].collision = true;
+
+            tile[21] = new Tile();
+            tile[21].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_angle_bottom_right.png"));
+            tile[21].collision = true;
+
+            tile[22] = new Tile();
+            tile[22].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_angle_up_right.png"));
+            tile[22].collision = true;
+
+            /**      House_1      **/
+
+            for (int i = 30; i < 50; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/house_1/house_"+ (i-29) +".png"));
+                tile[i].collision = true;
+            }
+
+            /**      Fish_Shop      **/
+
+            for (int i = 50; i < 70; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/fish_shop/fish_shop_"+ (i-49) +".png"));
+                tile[i].collision = true;
+            }
+
+            /**      Pier      **/
+
+            for (int i = 70; i < 78; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/pier/pier_"+ (i-69) +".png"));
+                tile[i].collision = false;
+            }
+
+            tile[76].collision = true;
+            tile[77].collision = true;
+
+
+
         }catch (IOException e) {
             e.printStackTrace();
         }
