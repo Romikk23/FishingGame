@@ -1,4 +1,6 @@
 package entity;
+import item.Inventory;
+import item.Item;
 import main.GamePanel;
 import main.KeyHandler;
 
@@ -7,6 +9,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -14,6 +17,9 @@ public class Player extends Entity {
 
     public final int screenX;
     public final int screenY;
+
+    public Inventory inventory = new Inventory();
+    public int selectedPositionInv;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -34,6 +40,9 @@ public class Player extends Entity {
         worldY = gp.tileSize*22;
         speed = 4;
         SPEEDANIMATION = 15;
+        selectedPositionInv = 1;
+        inventory.add(new Item(10));
+        inventory.add(new Item(11, 5));
         direction = "down";
     }
 
@@ -52,14 +61,14 @@ public class Player extends Entity {
         }
     }
     public void update() {
-        if(keyH.upPressed == true || keyH.downPressed  == true == true || keyH.leftPressed  == true || keyH.rightPressed == true) {
-            if (keyH.upPressed == true) {
+        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+            if (keyH.upPressed) {
                 direction = "up";
-            } else if (keyH.downPressed == true) {
+            } else if (keyH.downPressed) {
                 direction = "down";
-            } else if (keyH.leftPressed == true) {
+            } else if (keyH.leftPressed) {
                 direction = "left";
-            } else if (keyH.rightPressed == true) {
+            } else if (keyH.rightPressed) {
                 direction = "right";
             }
 
@@ -93,7 +102,32 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+        if(keyH.selectItemPressed){
+            selectedPositionInv = keyH.selectedInventoryItem;
+        }
+
+
+
+        /** GOD MODE **/
+
+        if(selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
+            sc++;
+            if (sc > 10) {
+                if (selectedPositionInv <= inventory.size()) {
+                    if (keyH.plusPressed) {
+                        inventory.addAmount(selectedPositionInv);
+                    }
+                    if (keyH.minusPressed) {
+                        inventory.minusAmount(selectedPositionInv);
+                    }
+                }
+                sc = 0;
+            }
+        }
+
+        /** GOD MODE **/
     }
+
     public void draw(Graphics2D g2) {
         BufferedImage image = null;
 

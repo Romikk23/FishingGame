@@ -4,7 +4,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    public boolean upPressed, downPressed, leftPressed, rightPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, selectItemPressed, plusPressed, minusPressed;
+    public int selectedInventoryItem;
 
     @Override
     public void keyTyped(KeyEvent e){
@@ -26,6 +27,16 @@ public class KeyHandler implements KeyListener {
         if(code == KeyEvent.VK_D){
             rightPressed = true;
         }
+        if(code >= KeyEvent.VK_1 && code <= KeyEvent.VK_6){
+            selectItemPressed = true;
+            selectedInventoryItem = code-48;
+        }
+        if(code == KeyEvent.VK_P){
+            plusPressed = true;
+        }
+        if(code == KeyEvent.VK_O){
+            minusPressed = true;
+        }
     }
 
     @Override
@@ -43,6 +54,15 @@ public class KeyHandler implements KeyListener {
         }
         if(code == KeyEvent.VK_D){
             rightPressed = false;
+        }
+        if(code >= KeyEvent.VK_1 && code <= KeyEvent.VK_6){
+            selectItemPressed = false;
+        }
+        if(code == KeyEvent.VK_P){
+            plusPressed = false;
+        }
+        if(code == KeyEvent.VK_O){
+            minusPressed = false;
         }
     }
 }
