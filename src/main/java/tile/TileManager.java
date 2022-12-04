@@ -16,7 +16,7 @@ public class TileManager {
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[100];
+        tile = new Tile[1000];
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         getTileImage();
         loadMap();
@@ -121,6 +121,37 @@ public class TileManager {
             tile[76].collision = true;
             tile[77].collision = true;
 
+            /**      Cart_1      **/
+
+            for (int i = 78; i < 84; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_1/cart_"+ (i-77) +".png"));
+                tile[i].collision = true;
+            }
+
+            /**      Cart_2      **/
+
+            for (int i = 84; i < 90; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_2/cart_"+ (i-83) +".png"));
+                tile[i].collision = true;
+            }
+
+            /**      Cart_3      **/
+
+            for (int i = 90; i < 96; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_3/cart_"+ (i-89) +".png"));
+                tile[i].collision = true;
+            }
+
+            /**      Cart_4      **/
+
+            for (int i = 96; i < 102; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_4/cart_"+ (i-95) +".png"));
+                tile[i].collision = true;
+            }
 
 
         }catch (IOException e) {
