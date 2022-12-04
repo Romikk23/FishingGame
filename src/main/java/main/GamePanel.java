@@ -1,5 +1,6 @@
 package main;
 
+import animation.Animation;
 import entity.Player;
 import hud.Hud;
 import tile.TileManager;
@@ -27,11 +28,13 @@ public class GamePanel extends JPanel implements Runnable{
     final int FPS = 60;
 
     KeyHandler keyH = new KeyHandler();
-    Thread gameThread;
+    public Thread gameThread;
     public Player player = new Player(this, keyH);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     TileManager tileManager = new TileManager(this);
     Hud hud = new Hud(this);
+    Position pos = new Position(this);
+    Animation anim = new Animation(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -67,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
         player.update();
+        pos.log(player);
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -74,6 +78,7 @@ public class GamePanel extends JPanel implements Runnable{
         tileManager.draw(g2);
         player.draw(g2);
         hud.draw(g2);
+        anim.drawAnimation(g2);
         g2.dispose();
     }
 }

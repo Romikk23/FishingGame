@@ -1,4 +1,5 @@
 package entity;
+import animation.Animation;
 import item.Inventory;
 import item.Item;
 import main.GamePanel;
@@ -20,6 +21,7 @@ public class Player extends Entity {
 
     public Inventory inventory = new Inventory();
     public int selectedPositionInv;
+    public boolean sleep = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
@@ -35,6 +37,7 @@ public class Player extends Entity {
         setDefaultValues();
         getPlayerImage();
     }
+
     public void setDefaultValues() {
         worldX = gp.tileSize*8;
         worldY = gp.tileSize*22;
@@ -42,7 +45,7 @@ public class Player extends Entity {
         SPEEDANIMATION = 15;
         selectedPositionInv = 1;
         inventory.add(new Item(10));
-        inventory.add(new Item(11, 5));
+        inventory.add(new Item(11, 1));
         direction = "down";
     }
 
@@ -60,6 +63,7 @@ public class Player extends Entity {
             e.printStackTrace();
         }
     }
+
     public void update() {
         if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
@@ -102,13 +106,17 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
-        if(keyH.selectItemPressed){
+        if(keyH.selectItemPressed) {
             selectedPositionInv = keyH.selectedInventoryItem;
         }
 
+        if(keyH.gPressed) {
+            if(worldX/gp.tileSize == 21 && worldY/gp.tileSize == 29){
+                sleep = true;
+            }
+        }
 
-
-        /** GOD MODE **/
+        /** GOD MODE START **/
 
         if(selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
             sc++;
@@ -125,7 +133,8 @@ public class Player extends Entity {
             }
         }
 
-        /** GOD MODE **/
+        /** GOD MODE END **/
+
     }
 
     public void draw(Graphics2D g2) {

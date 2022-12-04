@@ -37,7 +37,7 @@ public class Inventory {
 
 
     public boolean add(Item item){
-        if(inventory.size() <= 6){
+        if(inventory.size() < 6){
             inventory.add(item);
             return true;
         } else {
