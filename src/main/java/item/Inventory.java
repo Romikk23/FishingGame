@@ -31,9 +31,15 @@ public class Inventory {
         return false;
     }
 
-
-
-
+    public int itemExist(int id){
+        int index = -1;
+        for (int i = 0; i < inventory.size(); i++){
+            if(inventory.get(i).id == id){
+                index = i;
+            }
+        }
+        return index+1;
+    }
 
 
     public boolean add(Item item){

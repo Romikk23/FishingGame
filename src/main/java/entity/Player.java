@@ -122,6 +122,7 @@ public class Player extends Entity {
             }
             if(isFishing) {
                 isFishing = false;
+                fishing.interrupt();
             }
         }
         if(keyH.selectItemPressed) {
@@ -146,14 +147,19 @@ public class Player extends Entity {
                         spriteNum = 1;
                         inventory.minusAmount(selectedPositionInv);
                         isFishing = true;
-                        fishing.run();
-
+                        fishing.startFishing();
                     }
                 }
             } else {
                 if(fishing.bites){
-                    inventory.add(new Item(11, 10));
+                    int index = inventory.itemExist(12);
+                    if(index == 0) {
+                        inventory.add(new Item(12, 1));
+                    } else {
+                        inventory.addAmount(index);
+                    }
                 }
+                fishing.interrupt();
                 isFishing = false;
             }
         }
