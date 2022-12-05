@@ -1,9 +1,11 @@
 package entity;
 import animation.Animation;
+import entity.processes.Fishing;
 import item.Inventory;
 import item.Item;
 import main.GamePanel;
 import main.KeyHandler;
+import tile.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -19,16 +21,22 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
+    Tile[] fishing_rot;
+    Fishing fishing;
+
     public Inventory inventory = new Inventory();
     public int selectedPositionInv;
+
     public boolean sleep = false;
+    public boolean isFishing = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
+        this.fishing = new Fishing(this);
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2  - (gp.tileSize/2);
-
+        fishing_rot = new Tile[4];
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
@@ -45,7 +53,7 @@ public class Player extends Entity {
         SPEEDANIMATION = 15;
         selectedPositionInv = 1;
         inventory.add(new Item(10));
-        inventory.add(new Item(11, 1));
+        inventory.add(new Item(11, 10));
         direction = "down";
     }
 
@@ -59,9 +67,16 @@ public class Player extends Entity {
             left2 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_left_2.png"));
             right1 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_right_2.png"));
+
+            for (int i = 0; i < 4; i++) {
+                fishing_rot[i] = new Tile();
+                fishing_rot[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/overlay/fishing_1/fishing_"+ (i+1) +".png"));
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
+
+
     }
 
     public void update() {
@@ -105,6 +120,9 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
+            if(isFishing) {
+                isFishing = false;
+            }
         }
         if(keyH.selectItemPressed) {
             selectedPositionInv = keyH.selectedInventoryItem;
@@ -116,18 +134,40 @@ public class Player extends Entity {
             }
         }
 
+        if(keyH.spacePressed) {
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(!isFishing) {
+                if ((worldX / gp.tileSize >= 7 && worldX / gp.tileSize <= 9) && worldY / gp.tileSize == 29) {
+                    if (selectedPositionInv <= inventory.size() && (inventory.get(selectedPositionInv).id == 11)) {
+                        spriteNum = 1;
+                        inventory.minusAmount(selectedPositionInv);
+                        isFishing = true;
+                        fishing.run();
+
+                    }
+                }
+            } else {
+                if(fishing.bites){
+                    inventory.add(new Item(11, 10));
+                }
+                isFishing = false;
+            }
+        }
+
         /** GOD MODE START **/
 
         if(selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
             sc++;
             if (sc > 10) {
-                if (selectedPositionInv <= inventory.size()) {
-                    if (keyH.plusPressed) {
-                        inventory.addAmount(selectedPositionInv);
-                    }
-                    if (keyH.minusPressed) {
-                        inventory.minusAmount(selectedPositionInv);
-                    }
+                if (keyH.plusPressed) {
+                    inventory.addAmount(selectedPositionInv);
+                }
+                if (keyH.minusPressed) {
+                    inventory.minusAmount(selectedPositionInv);
                 }
                 sc = 0;
             }
@@ -175,5 +215,17 @@ public class Player extends Entity {
                 break;
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+
+        if(isFishing){
+            for(int i = 0; i < 2; i++) {
+                g2.drawImage(fishing_rot[i].image, screenX, screenY+(i*gp.tileSize), gp.tileSize, gp.tileSize, null);
+            }
+            if(fishing.bites){
+                g2.drawImage(fishing_rot[3].image, screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
+            } else {
+                g2.drawImage(fishing_rot[2].image, screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
+            }
+        }
+
     }
 }

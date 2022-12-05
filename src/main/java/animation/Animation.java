@@ -1,18 +1,33 @@
 package animation;
 
 import main.GamePanel;
+import tile.Tile;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.IOException;
 
 public class Animation {
     GamePanel gp;
     int spriteCounter = 0;
+    Tile[] tile;
+    int screenX;
+    int screenY;
 
     public Animation(GamePanel gp) {
         this.gp = gp;
+        tile = new Tile[3];
+        screenX = gp.screenWidth/2 - (gp.tileSize/2);
+        screenY = gp.screenHeight/2  - (gp.tileSize/2);
+        getTileImage();
     }
-    public void drawAnimation(Graphics2D g2){
+
+    public void drawAnimation(Graphics2D g2) {
         skipDay(g2);
+    }
+
+    private void getTileImage() {
+
     }
     private void skipDay(Graphics2D g2) {
         if(gp.player.sleep) {
