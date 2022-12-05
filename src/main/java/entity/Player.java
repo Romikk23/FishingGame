@@ -147,7 +147,7 @@ public class Player extends Entity {
                         spriteNum = 1;
                         inventory.minusAmount(selectedPositionInv);
                         isFishing = true;
-                        fishing.startFishing();
+                        fishing.startFishing(inventory.get(selectedPositionInv).id);
                     }
                 }
             } else {

@@ -9,6 +9,9 @@ import static java.lang.Thread.sleep;
 public class Fishing implements Runnable{
     Player player;
     public boolean bites;
+    int idBite;
+    int idCatch;
+
     int time;
     Thread fishingThread;
 
@@ -16,9 +19,11 @@ public class Fishing implements Runnable{
         this.player = player;
         this.bites = false;
     }
-    public void startFishing() {
+    public void startFishing(int idBite) {
         fishingThread = new Thread(this);
         fishingThread.start();
+        this.idBite = idBite;
+        idCatch = 0;
     }
 
     @Override
@@ -26,10 +31,18 @@ public class Fishing implements Runnable{
         try {
             if(!bites) {
                 Random rand = new Random();
-                time = rand.nextInt((30 * 1000 - 15 * 1000) + 1) + 15 * 1000;
-                Thread.sleep(2000);
+                switch (idBite) {
+                    case 11:
+                        time = rand.nextInt((30 * 1000 - 15 * 1000) + 1) + 15 * 1000;
+                        break;
+                    default:
+                        time = 1000;
+                        break;
+                }
+                Thread.sleep(time);
                 bites = true;
-                Thread.sleep(5000);
+                idCatch = 12;
+                Thread.sleep(4000);
                 bites = false;
                 restart();
             }
