@@ -8,27 +8,42 @@ public class Inventory {
     // COUNT START FROM 1 TO SIX !!!!!!!!!!!!!!
 
     public boolean addAmount(int index){
-        if(exist(index)){
-            if(inventory.get(index-1).amount < 20){
-                inventory.get(index-1).amount++;
-                return true;
-            }
+
+        if(itemExistNotFullFirst(inventory.get(index-1).id) != 0){
+            inventory.get(itemExistNotFullFirst(inventory.get(index-1).id)-1).amount++;
+            return true;
+        } else if(inventory.size() < 6){
+            inventory.add(new Item(inventory.get(index - 1).id, 1));
+            return true;
         }
+
         return false;
     }
 
     public boolean minusAmount(int index){
-        if(exist(index)){
-            if(inventory.get(index-1).amount > 1){
-                inventory.get(index-1).amount--;
-                return true;
-            }
-            if(inventory.get(index-1).amount == 1){
-                inventory.remove(index-1);
-                return true;
-            }
+        int newIndex = itemExist(inventory.get(index-1).id);
+        if(newIndex != 0 && inventory.get(newIndex-1).amount > 1){
+            inventory.get(newIndex-1).amount--;
+            return true;
+        } else if(inventory.get(newIndex-1).amount == 1){
+            inventory.remove(newIndex-1);
+            return true;
         }
+
         return false;
+
+
+//        if(exist(index)){
+//            if(inventory.get(index-1).amount > 1){
+//                inventory.get(index-1).amount--;
+//                return true;
+//            }
+//            if(inventory.get(index-1).amount == 1){
+//                inventory.remove(index-1);
+//                return true;
+//            }
+//        }
+//        return false;
     }
 
     public int itemExist(int id){
@@ -41,6 +56,23 @@ public class Inventory {
         return index+1;
     }
 
+    private int itemExistNotFullFirst(int id){
+        for (int i = 0; i < inventory.size(); i++){
+            if(inventory.get(i).id == id && inventory.get(i).amount < 20){
+                return i+1;
+            }
+        }
+        return 0;
+    }
+
+    private int itemExistNotFullLast(int id){
+        for (int i = 0; i < inventory.size(); i++){
+            if(inventory.get(i).id == id && inventory.get(i).amount < 20){
+                return i+1;
+            }
+        }
+        return 0;
+    }
 
     public boolean add(Item item){
         if(inventory.size() < 6){
