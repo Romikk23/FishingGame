@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][];
+    public int[][] mapTileNum;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -39,7 +39,7 @@ public class TileManager {
             tile[4].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/unknown.png"));
             tile[4].collision = true;
 
-            /**      WATER      **/
+            /*      WATER      */
 
 
             tile[10] = new Tile();
@@ -94,7 +94,7 @@ public class TileManager {
             tile[22].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/water/water_with_grass_angle_up_right.png"));
             tile[22].collision = true;
 
-            /**      House_1      **/
+            /*      House_1      */
 
             for (int i = 30; i < 50; i++) {
                 tile[i] = new Tile();
@@ -102,7 +102,7 @@ public class TileManager {
                 tile[i].collision = true;
             }
 
-            /**      Fish_Shop      **/
+            /*      Fish_Shop      */
 
             for (int i = 50; i < 70; i++) {
                 tile[i] = new Tile();
@@ -110,7 +110,7 @@ public class TileManager {
                 tile[i].collision = true;
             }
 
-            /**      Pier      **/
+            /*      Pier      */
 
             for (int i = 70; i < 78; i++) {
                 tile[i] = new Tile();
@@ -121,7 +121,7 @@ public class TileManager {
             tile[76].collision = true;
             tile[77].collision = true;
 
-            /**      Cart_1      **/
+            /*      Cart_1      */
 
             for (int i = 78; i < 84; i++) {
                 tile[i] = new Tile();
@@ -129,7 +129,7 @@ public class TileManager {
                 tile[i].collision = true;
             }
 
-            /**      Cart_2      **/
+            /*      Cart_2      */
 
             for (int i = 84; i < 90; i++) {
                 tile[i] = new Tile();
@@ -137,7 +137,7 @@ public class TileManager {
                 tile[i].collision = true;
             }
 
-            /**      Cart_3      **/
+            /*      Cart_3      */
 
             for (int i = 90; i < 96; i++) {
                 tile[i] = new Tile();
@@ -145,7 +145,7 @@ public class TileManager {
                 tile[i].collision = true;
             }
 
-            /**      Cart_4      **/
+            /*      Cart_4      */
 
             for (int i = 96; i < 102; i++) {
                 tile[i] = new Tile();
@@ -170,7 +170,7 @@ public class TileManager {
                 String line = br.readLine();
 
                 while(row < gp.maxWorldRow) {
-                    String numbers[] = line.split(" ");
+                    String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[row]);
                     mapTileNum[col][row] = num;
                     row++;

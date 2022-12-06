@@ -20,8 +20,4 @@ public class Item {
         this.amount = 1;
         this.isCountable = false;
     }
-
-    public Item() {
-
-    }
 }

@@ -31,19 +31,6 @@ public class Inventory {
         }
 
         return false;
-
-
-//        if(exist(index)){
-//            if(inventory.get(index-1).amount > 1){
-//                inventory.get(index-1).amount--;
-//                return true;
-//            }
-//            if(inventory.get(index-1).amount == 1){
-//                inventory.remove(index-1);
-//                return true;
-//            }
-//        }
-//        return false;
     }
 
     public int itemExist(int id){

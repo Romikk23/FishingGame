@@ -1,5 +1,5 @@
 package entity;
-import animation.Animation;
+
 import entity.processes.Fishing;
 import item.Inventory;
 import item.Item;
@@ -9,10 +9,8 @@ import tile.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -87,7 +85,7 @@ public class Player extends Entity {
                 direction = "down";
             } else if (keyH.leftPressed) {
                 direction = "left";
-            } else if (keyH.rightPressed) {
+            } else {
                 direction = "right";
             }
 
@@ -96,18 +94,10 @@ public class Player extends Entity {
 
             if (!collisionOn) {
                 switch (direction) {
-                    case "up":
-                        worldY -= speed;
-                        break;
-                    case "down":
-                        worldY += speed;
-                        break;
-                    case "left":
-                        worldX -= speed;
-                        break;
-                    case "right":
-                        worldX += speed;
-                        break;
+                    case "up" -> worldY -= speed;
+                    case "down" -> worldY += speed;
+                    case "left" -> worldX -= speed;
+                    case "right" -> worldX += speed;
                 }
             }
 
@@ -164,7 +154,7 @@ public class Player extends Entity {
             }
         }
 
-        /** GOD MODE START **/
+        /* GOD MODE START */
 
         if(selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
             sc++;
@@ -179,7 +169,7 @@ public class Player extends Entity {
             }
         }
 
-        /** GOD MODE END **/
+        /* GOD MODE END */
 
     }
 
@@ -187,38 +177,38 @@ public class Player extends Entity {
         BufferedImage image = null;
 
         switch (direction) {
-            case "up":
-                if(spriteNum == 1) {
+            case "up" -> {
+                if (spriteNum == 1) {
                     image = up1;
                 }
-                if(spriteNum == 2) {
+                if (spriteNum == 2) {
                     image = up2;
                 }
-                break;
-            case "down":
-                if(spriteNum == 1) {
+            }
+            case "down" -> {
+                if (spriteNum == 1) {
                     image = down1;
                 }
-                if(spriteNum == 2) {
+                if (spriteNum == 2) {
                     image = down2;
                 }
-                break;
-            case "left":
-                if(spriteNum == 1) {
+            }
+            case "left" -> {
+                if (spriteNum == 1) {
                     image = left1;
                 }
-                if(spriteNum == 2) {
+                if (spriteNum == 2) {
                     image = left2;
                 }
-                break;
-            case "right":
-                if(spriteNum == 1) {
+            }
+            case "right" -> {
+                if (spriteNum == 1) {
                     image = right1;
                 }
-                if(spriteNum == 2) {
+                if (spriteNum == 2) {
                     image = right2;
                 }
-                break;
+            }
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
