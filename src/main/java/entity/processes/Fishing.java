@@ -1,10 +1,7 @@
 package entity.processes;
 
 import entity.Player;
-
 import java.util.Random;
-
-import static java.lang.Thread.sleep;
 
 public class Fishing implements Runnable{
     Player player;
@@ -32,12 +29,8 @@ public class Fishing implements Runnable{
             if(!bites) {
                 Random rand = new Random();
                 switch (idBite) {
-                    case 11:
-                        time = rand.nextInt((30 * 1000 - 15 * 1000) + 1) + 15 * 1000;
-                        break;
-                    default:
-                        time = 1000;
-                        break;
+                    case 11 -> time = rand.nextInt((30 * 1000 - 15 * 1000) + 1) + 15 * 1000;
+                    default -> time = 1000;
                 }
                 Thread.sleep(time);
                 bites = true;
@@ -46,14 +39,16 @@ public class Fishing implements Runnable{
                 bites = false;
                 restart();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (InterruptedException ignored) {
+
         }
     }
 
     public void interrupt() {
         bites = false;
-        fishingThread.interrupt();
+        if(fishingThread.isAlive()) {
+            fishingThread.interrupt();
+        }
     }
 
     private void restart() {

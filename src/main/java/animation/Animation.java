@@ -2,10 +2,7 @@ package animation;
 
 import main.GamePanel;
 import tile.Tile;
-
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
 
 public class Animation {
     GamePanel gp;
@@ -51,6 +48,7 @@ public class Animation {
                     e.printStackTrace();
                 }
                 gp.player.sleep = false;
+                gp.player.direction = "down";
                 spriteCounter = 0;
             }
         }

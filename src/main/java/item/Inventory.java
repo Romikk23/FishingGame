@@ -52,15 +52,6 @@ public class Inventory {
         return 0;
     }
 
-    private int itemExistNotFullLast(int id){
-        for (int i = 0; i < inventory.size(); i++){
-            if(inventory.get(i).id == id && inventory.get(i).amount < 20){
-                return i+1;
-            }
-        }
-        return 0;
-    }
-
     public boolean add(Item item){
         if(inventory.size() < 6){
             inventory.add(item);
@@ -78,15 +69,6 @@ public class Inventory {
         return inventory.isEmpty();
     }
 
-    public boolean remove(int index){
-        if(exist(index)){
-            inventory.remove(index-1);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public Item get(int index){
         if(exist(index)){
             return inventory.get(index-1);
@@ -96,10 +78,6 @@ public class Inventory {
     }
 
     private boolean exist(int index){
-        if(inventory.size() >= index && inventory.size() <= 6){
-            return true;
-        } else {
-            return false;
-        }
+        return inventory.size() >= index && inventory.size() <= 6;
     }
 }

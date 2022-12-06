@@ -23,6 +23,7 @@ public class Player extends Entity {
     Fishing fishing;
 
     public Inventory inventory = new Inventory();
+    public int coins;
     public int selectedPositionInv;
 
     public boolean sleep = false;
@@ -40,6 +41,7 @@ public class Player extends Entity {
         solidArea.y = 16;
         solidArea.width = 32;
         solidArea.height = 32;
+        coins = 123;
         setDefaultValues();
         getPlayerImage();
     }
@@ -126,31 +128,30 @@ public class Player extends Entity {
         }
 
         if(keyH.spacePressed) {
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(!isFishing) {
-                if ((worldX / gp.tileSize >= 7 && worldX / gp.tileSize <= 9) && worldY / gp.tileSize == 29) {
-                    if (selectedPositionInv <= inventory.size() && (inventory.get(selectedPositionInv).id == 11)) {
-                        spriteNum = 1;
-                        inventory.minusAmount(selectedPositionInv);
-                        isFishing = true;
-                        fishing.startFishing(inventory.get(selectedPositionInv).id);
-                    }
-                }
-            } else {
-                if(fishing.bites){
-                    int index = inventory.itemExist(12);
-                    if(index == 0) {
-                        inventory.add(new Item(12, 1));
+            if ((worldX / gp.tileSize >= 7 && worldX / gp.tileSize <= 9) && worldY / gp.tileSize == 29) {
+                spaceCounter++;
+                if (spaceCounter > 10) {
+                    spaceCounter = 0;
+                    if (!isFishing) {
+                        if (selectedPositionInv <= inventory.size() && (inventory.get(selectedPositionInv).id == 11)) {
+                            spriteNum = 1;
+                            isFishing = true;
+                            fishing.startFishing(inventory.get(selectedPositionInv).id);
+                            inventory.minusAmount(selectedPositionInv);
+                        }
                     } else {
-                        inventory.addAmount(index);
+                        if (fishing.bites) {
+                            int index = inventory.itemExist(12);
+                            if (index == 0) {
+                                inventory.add(new Item(12, 1));
+                            } else {
+                                inventory.addAmount(index);
+                            }
+                        }
+                        fishing.interrupt();
+                        isFishing = false;
                     }
                 }
-                fishing.interrupt();
-                isFishing = false;
             }
         }
 
