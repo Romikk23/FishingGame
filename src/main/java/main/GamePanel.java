@@ -4,6 +4,8 @@ import animation.Animation;
 import entity.Player;
 import hud.Hud;
 import tile.TileManager;
+import world.DayCycle;
+import world.Time;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,6 +28,7 @@ public class GamePanel extends JPanel implements Runnable{
     final int FPS = 60;
 
     KeyHandler keyH = new KeyHandler();
+    Time time = Time.getInstance(21, 55);
     public Thread gameThread;
     public Player player = new Player(this, keyH);
     public CollisionChecker collisionChecker = new CollisionChecker(this);
@@ -33,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable{
     Hud hud = new Hud(this);
     Position pos = new Position(this);
     Animation anim = new Animation(this);
+    DayCycle dayCycle = new DayCycle(this);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -52,23 +56,27 @@ public class GamePanel extends JPanel implements Runnable{
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-
+        long lastMillis = System.currentTimeMillis();
         while(gameThread != null){
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
-
             if(delta >= 1) {
                 update();
                 repaint();
                 delta--;
+            }
+            if(System.currentTimeMillis() - lastMillis >= 2000) {
+                lastMillis = System.currentTimeMillis();
+                time.addMinute();
+                System.out.println(time);
             }
         }
     }
 
     public void update() {
         player.update();
-        pos.log(player);
+//        pos.log(player);
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -77,6 +85,7 @@ public class GamePanel extends JPanel implements Runnable{
         player.draw(g2);
         hud.draw(g2);
         anim.drawAnimation(g2);
+        dayCycle.draw(g2);
         g2.dispose();
     }
 }

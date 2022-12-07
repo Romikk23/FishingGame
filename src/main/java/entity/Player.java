@@ -6,6 +6,8 @@ import item.Item;
 import main.GamePanel;
 import main.KeyHandler;
 import tile.Tile;
+import utils.ImageUtils;
+import world.Time;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -15,11 +17,13 @@ import java.io.IOException;
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyH;
+    Time time;
 
     public final int screenX;
     public final int screenY;
 
-    Tile[] fishing_rot;
+    BufferedImage[] fishing_rot;
+    BufferedImage flashlight;
     Fishing fishing;
 
     public Inventory inventory = new Inventory();
@@ -28,14 +32,16 @@ public class Player extends Entity {
 
     public boolean sleep = false;
     public boolean isFishing = false;
+    public boolean flashlightOn = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
         this.gp = gp;
         this.keyH = keyH;
         this.fishing = new Fishing(this);
+        time = Time.getInstance();
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2  - (gp.tileSize/2);
-        fishing_rot = new Tile[4];
+        fishing_rot = new BufferedImage[4];
         solidArea = new Rectangle();
         solidArea.x = 8;
         solidArea.y = 16;
@@ -68,9 +74,11 @@ public class Player extends Entity {
             right1 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_right_1.png"));
             right2 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_right_2.png"));
 
+            flashlight = ImageIO.read(getClass().getResourceAsStream("/textures/world/night/flashlight.png"));
+
+
             for (int i = 0; i < 4; i++) {
-                fishing_rot[i] = new Tile();
-                fishing_rot[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/overlay/fishing_1/fishing_"+ (i+1) +".png"));
+                fishing_rot[i] = ImageIO.read(getClass().getResourceAsStream("/textures/overlay/fishing_1/fishing_"+ (i+1) +".png"));
             }
         }catch (IOException e){
             e.printStackTrace();
@@ -123,7 +131,9 @@ public class Player extends Entity {
 
         if(keyH.gPressed) {
             if(worldX/gp.tileSize == 21 && worldY/gp.tileSize == 29){
-                sleep = true;
+                if(time.hour >= 21 || time.hour <= 6) {
+                    sleep = true;
+                }
             }
         }
 
@@ -153,6 +163,12 @@ public class Player extends Entity {
                     }
                 }
             }
+        }
+
+        if(time.hour >= 21 || time.hour <= 7) {
+            flashlightOn = true;
+        } else {
+            flashlightOn = false;
         }
 
         /* GOD MODE START */
@@ -215,12 +231,21 @@ public class Player extends Entity {
 
         if(isFishing){
             for(int i = 0; i < 2; i++) {
-                g2.drawImage(fishing_rot[i].image, screenX, screenY+(i*gp.tileSize), gp.tileSize, gp.tileSize, null);
+                g2.drawImage(fishing_rot[i], screenX, screenY+(i*gp.tileSize), gp.tileSize, gp.tileSize, null);
             }
             if(fishing.bites){
-                g2.drawImage(fishing_rot[3].image, screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
+                g2.drawImage(fishing_rot[3], screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
             } else {
-                g2.drawImage(fishing_rot[2].image, screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
+                g2.drawImage(fishing_rot[2], screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
+            }
+        }
+
+        if(flashlightOn){
+            switch (direction) {
+                case "up" -> g2.drawImage(ImageUtils.rotate(flashlight, 180), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
+                case "down" -> g2.drawImage(flashlight, screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
+                case "left" -> g2.drawImage(ImageUtils.rotate(flashlight, 90), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
+                case "right" -> g2.drawImage(ImageUtils.rotate(flashlight, 270), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
             }
         }
 

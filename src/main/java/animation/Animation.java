@@ -2,10 +2,13 @@ package animation;
 
 import main.GamePanel;
 import tile.Tile;
+import world.Time;
+
 import java.awt.*;
 
 public class Animation {
     GamePanel gp;
+    Time time;
     int spriteCounter = 0;
     Tile[] tile;
     int screenX;
@@ -13,6 +16,7 @@ public class Animation {
 
     public Animation(GamePanel gp) {
         this.gp = gp;
+        time = Time.getInstance();
         tile = new Tile[3];
         screenX = gp.screenWidth/2 - (gp.tileSize/2);
         screenY = gp.screenHeight/2  - (gp.tileSize/2);
@@ -49,6 +53,7 @@ public class Animation {
                 }
                 gp.player.sleep = false;
                 gp.player.direction = "down";
+                time.setTime(8, 0);
                 spriteCounter = 0;
             }
         }
