@@ -240,14 +240,14 @@ public class Player extends Entity {
             }
         }
 
-        if(flashlightOn){
-            switch (direction) {
-                case "up" -> g2.drawImage(ImageUtils.rotate(flashlight, 180), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-                case "down" -> g2.drawImage(flashlight, screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-                case "left" -> g2.drawImage(ImageUtils.rotate(flashlight, 90), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-                case "right" -> g2.drawImage(ImageUtils.rotate(flashlight, 270), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-            }
-        }
+//        if(flashlightOn){
+//            switch (direction) {
+//                case "up" -> g2.drawImage(ImageUtils.rotate(flashlight, 180), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
+//                case "down" -> g2.drawImage(flashlight, screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
+//                case "left" -> g2.drawImage(ImageUtils.rotate(flashlight, 90), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
+//                case "right" -> g2.drawImage(ImageUtils.rotate(flashlight, 270), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
+//            }
+//        }
 
     }
 }
