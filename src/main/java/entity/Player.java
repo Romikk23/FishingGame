@@ -5,8 +5,8 @@ import item.Inventory;
 import item.Item;
 import main.GamePanel;
 import main.KeyHandler;
-import tile.Tile;
-import utils.ImageUtils;
+
+import main.Save;
 import world.Time;
 
 import javax.imageio.ImageIO;
@@ -31,6 +31,7 @@ public class Player extends Entity {
     public int selectedPositionInv;
 
     public boolean sleep = false;
+    public boolean animSave = false;
     public boolean isFishing = false;
     public boolean flashlightOn = false;
 
@@ -39,8 +40,8 @@ public class Player extends Entity {
         this.keyH = keyH;
         this.fishing = new Fishing(this);
         time = Time.getInstance();
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2  - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
         fishing_rot = new BufferedImage[4];
         solidArea = new Rectangle();
         solidArea.x = 8;
@@ -53,14 +54,17 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        worldX = gp.tileSize*8;
-        worldY = gp.tileSize*22;
+        worldX = gp.tileSize * 8;
+        worldY = gp.tileSize * 22;
         speed = 4;
         SPEEDANIMATION = 15;
         selectedPositionInv = 1;
-        inventory.add(new Item(10));
-        inventory.add(new Item(11, 10));
         direction = "down";
+    }
+
+    public void setWorldCoord(int x, int y) {
+        worldX = x;
+        worldY = y;
     }
 
     public void getPlayerImage() {
@@ -78,9 +82,9 @@ public class Player extends Entity {
 
 
             for (int i = 0; i < 4; i++) {
-                fishing_rot[i] = ImageIO.read(getClass().getResourceAsStream("/textures/overlay/fishing_1/fishing_"+ (i+1) +".png"));
+                fishing_rot[i] = ImageIO.read(getClass().getResourceAsStream("/textures/overlay/fishing_1/fishing_" + (i + 1) + ".png"));
             }
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -88,7 +92,7 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
             if (keyH.upPressed) {
                 direction = "up";
             } else if (keyH.downPressed) {
@@ -120,69 +124,65 @@ public class Player extends Entity {
                 }
                 spriteCounter = 0;
             }
-            if(isFishing) {
+            if (isFishing) {
                 isFishing = false;
                 fishing.interrupt();
             }
         }
-        if(keyH.selectItemPressed) {
+        if (keyH.selectItemPressed) {
             selectedPositionInv = keyH.selectedInventoryItem;
         }
 
-        if(keyH.gPressed) {
-            if(worldX/gp.tileSize == 21 && worldY/gp.tileSize == 29){
-                if(time.hour >= 21 || time.hour <= 6) {
+        if (keyH.gPressed) {
+            if (worldX / gp.tileSize == 21 && worldY / gp.tileSize == 29) {
+                Save save = new Save(this);
+                save.makeSave();
+                if (time.hour >= 21 || time.hour <= 6) {
                     sleep = true;
+                } else {
+                    animSave = true;
                 }
             }
+            keyH.gPressed = false;
         }
 
-        if(keyH.spacePressed) {
+        if (keyH.spacePressed) {
             if ((worldX / gp.tileSize >= 7 && worldX / gp.tileSize <= 9) && worldY / gp.tileSize == 29) {
-                spaceCounter++;
-                if (spaceCounter > 10) {
-                    spaceCounter = 0;
-                    if (!isFishing) {
-                        if (selectedPositionInv <= inventory.size() && (inventory.get(selectedPositionInv).id == 11)) {
-                            spriteNum = 1;
-                            isFishing = true;
-                            fishing.startFishing(inventory.get(selectedPositionInv).id);
-                            inventory.minusAmount(selectedPositionInv);
-                        }
-                    } else {
-                        if (fishing.bites) {
-                            int index = inventory.itemExist(12);
-                            if (index == 0) {
-                                inventory.add(new Item(12, 1));
-                            } else {
-                                inventory.addAmount(index);
-                            }
-                        }
-                        fishing.interrupt();
-                        isFishing = false;
+                if (!isFishing) {
+                    if (selectedPositionInv <= inventory.size() && (inventory.get(selectedPositionInv).id == 11)) {
+                        spriteNum = 1;
+                        isFishing = true;
+                        fishing.startFishing(inventory.get(selectedPositionInv).id);
+                        inventory.minusAmount(selectedPositionInv);
                     }
+                } else {
+                    if (fishing.bites) {
+                        int index = inventory.itemExist(12);
+                        if (index == 0) {
+                            inventory.add(new Item(12, 1));
+                        } else {
+                            inventory.addAmount(index);
+                        }
+                    }
+                    fishing.interrupt();
+                    isFishing = false;
                 }
             }
+            keyH.spacePressed = false;
         }
 
-        if(time.hour >= 21 || time.hour <= 7) {
-            flashlightOn = true;
-        } else {
-            flashlightOn = false;
-        }
+        flashlightOn = time.hour >= 21 || time.hour <= 7;
 
         /* GOD MODE START */
 
-        if(selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
-            sc++;
-            if (sc > 10) {
-                if (keyH.plusPressed) {
-                    inventory.addAmount(selectedPositionInv);
-                }
-                if (keyH.minusPressed) {
-                    inventory.minusAmount(selectedPositionInv);
-                }
-                sc = 0;
+        if (selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
+            if (keyH.plusPressed) {
+                inventory.addAmount(selectedPositionInv);
+                keyH.plusPressed = false;
+            }
+            if (keyH.minusPressed) {
+                inventory.minusAmount(selectedPositionInv);
+                keyH.minusPressed = false;
             }
         }
 
@@ -229,14 +229,14 @@ public class Player extends Entity {
         }
         g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 
-        if(isFishing){
-            for(int i = 0; i < 2; i++) {
-                g2.drawImage(fishing_rot[i], screenX, screenY+(i*gp.tileSize), gp.tileSize, gp.tileSize, null);
+        if (isFishing) {
+            for (int i = 0; i < 2; i++) {
+                g2.drawImage(fishing_rot[i], screenX, screenY + (i * gp.tileSize), gp.tileSize, gp.tileSize, null);
             }
-            if(fishing.bites){
-                g2.drawImage(fishing_rot[3], screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
+            if (fishing.bites) {
+                g2.drawImage(fishing_rot[3], screenX, screenY + (2 * gp.tileSize), gp.tileSize, gp.tileSize, null);
             } else {
-                g2.drawImage(fishing_rot[2], screenX, screenY+(2*gp.tileSize), gp.tileSize, gp.tileSize, null);
+                g2.drawImage(fishing_rot[2], screenX, screenY + (2 * gp.tileSize), gp.tileSize, gp.tileSize, null);
             }
         }
 

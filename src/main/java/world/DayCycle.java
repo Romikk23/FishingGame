@@ -31,14 +31,9 @@ public class DayCycle {
     public void draw(Graphics2D g2) {
         //System.out.println("       Another time: " + time.toString());
         if(time.hour >= 21 || time.hour <= 7) {
-            for(int i = 0; i < gp.maxScreenCol*2; i++) {
-                for(int j = 0; j < gp.maxScreenRow*2; j++) {
-                    if(i >= 11 && j >= 7 && i <= 20 && j <= 16) {
-
-                    }
-                    else {
-                        g2.drawImage(night.image, i*(gp.tileSize-24), j*(gp.tileSize-24), gp.tileSize-24, gp.tileSize-24, null);
-                    }
+            for(int i = 0; i < gp.maxScreenCol; i++) {
+                for(int j = 0; j < gp.maxScreenRow; j++) {
+                    g2.drawImage(night.image, i*gp.tileSize, j*gp.tileSize, gp.tileSize, gp.tileSize, null);
                 }
             }
         }

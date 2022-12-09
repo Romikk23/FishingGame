@@ -113,19 +113,19 @@ public class Hud {
 
     private void drawCoins(Graphics2D g2){
         int x = 14;
-        int y = 0;
         int numbCoins = gp.player.coins;
-        g2.drawImage(coins[10].image, (x-1)*gp.tileSize-8, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
+
+        g2.drawImage(coins[10].image, (x-1)*gp.tileSize-8, 0, gp.tileSize, gp.tileSize, null);
 
         if(numbCoins >= 0 && numbCoins < 10) {
-            g2.drawImage(coins[numbCoins].image, x*gp.tileSize, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(coins[numbCoins].image, x*gp.tileSize, 0, gp.tileSize, gp.tileSize, null);
         } else if(numbCoins < 100) {
-            g2.drawImage(coins[numbCoins/10].image, x*gp.tileSize, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(coins[numbCoins%10].image, x*gp.tileSize+22, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(coins[numbCoins/10].image, x*gp.tileSize, 0, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(coins[numbCoins%10].image, x*gp.tileSize+22, 0, gp.tileSize, gp.tileSize, null);
         } else if(numbCoins < 1000) {
-            g2.drawImage(coins[numbCoins/100].image, x*gp.tileSize, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(coins[(numbCoins/10)%10].image, x*gp.tileSize+22, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
-            g2.drawImage(coins[numbCoins%10].image, x*gp.tileSize+44, y * gp.tileSize, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(coins[numbCoins/100].image, x*gp.tileSize, 0, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(coins[(numbCoins/10)%10].image, x*gp.tileSize+22, 0, gp.tileSize, gp.tileSize, null);
+            g2.drawImage(coins[numbCoins%10].image, x*gp.tileSize+44, 0, gp.tileSize, gp.tileSize, null);
         }
     }
 }

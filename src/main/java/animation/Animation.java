@@ -25,6 +25,7 @@ public class Animation {
 
     public void drawAnimation(Graphics2D g2) {
         skipDay(g2);
+        animSave(g2);
     }
 
     private void getTileImage() {
@@ -54,6 +55,34 @@ public class Animation {
                 gp.player.sleep = false;
                 gp.player.direction = "down";
                 time.setTime(8, 0);
+                spriteCounter = 0;
+            }
+        }
+
+    }
+
+    private void animSave(Graphics2D g2) {
+        if(gp.player.animSave) {
+            for(int k = 0; k < spriteCounter; k++) {
+                for (int j = 0; j < gp.maxScreenCol; j++) {
+                    g2.setColor(Color.black);
+                    g2.fillRect(j * gp.tileSize, k * gp.tileSize, gp.tileSize, gp.tileSize);
+                    g2.fillRect(j * gp.tileSize, (gp.maxScreenRow-k) * gp.tileSize, gp.tileSize, gp.tileSize);
+                }
+            }
+            spriteCounter++;
+            try {
+                Thread.sleep(70);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if(spriteCounter == gp.maxScreenRow){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                gp.player.animSave = false;
                 spriteCounter = 0;
             }
         }

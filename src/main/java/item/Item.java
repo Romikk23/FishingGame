@@ -11,13 +11,12 @@ public class Item {
 
     public Item(int id, int amount) {
         this.id = id;
-        this.amount = amount;
-        this.isCountable = true;
-    }
-
-    public Item(int id) {
-        this.id = id;
-        this.amount = 1;
-        this.isCountable = false;
+        if(amount == 0) {
+            this.amount = 1;
+            this.isCountable = false;
+        } else {
+            this.amount = amount;
+            this.isCountable = true;
+        }
     }
 }

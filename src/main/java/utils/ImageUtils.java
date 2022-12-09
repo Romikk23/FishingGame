@@ -35,7 +35,6 @@ public class ImageUtils {
         }
 
         bi.flush();
-        bi = null;
 
         return biFlip;
     }

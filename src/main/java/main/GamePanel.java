@@ -10,7 +10,7 @@ import world.Time;
 import javax.swing.*;
 import java.awt.*;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16; // 16x16
     final int scale = 3;
 
@@ -37,6 +37,7 @@ public class GamePanel extends JPanel implements Runnable{
     Position pos = new Position(this);
     Animation anim = new Animation(this);
     DayCycle dayCycle = new DayCycle(this);
+    Save save = new Save(this, player);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -44,29 +45,36 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+
     }
 
     public void startGameThread() {
+        if(!save.getSave()){
+            player.coins = 100;
+            player.worldX = tileSize*8;
+            player.worldY = tileSize*10;
+        }
         gameThread = new Thread(this);
         gameThread.start();
     }
+
     @Override
     public void run() {
-        double drawInterval = 1000000000/FPS;
+        double drawInterval = 1000000000 / FPS;
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long lastMillis = System.currentTimeMillis();
-        while(gameThread != null){
+        while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
-            if(delta >= 1) {
+            if (delta >= 1) {
                 update();
                 repaint();
                 delta--;
             }
-            if(System.currentTimeMillis() - lastMillis >= 2000) {
+            if (System.currentTimeMillis() - lastMillis >= 2000) {
                 lastMillis = System.currentTimeMillis();
                 time.addMinute();
                 System.out.println(time);
@@ -76,8 +84,10 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update() {
         player.update();
+        save.update();
 //        pos.log(player);
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;

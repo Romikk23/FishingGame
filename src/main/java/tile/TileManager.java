@@ -98,7 +98,7 @@ public class TileManager {
 
             for (int i = 30; i < 50; i++) {
                 tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/house_1/house_"+ (i-29) +".png"));
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/house_1/house_" + (i - 29) + ".png"));
                 tile[i].collision = true;
             }
 
@@ -106,7 +106,7 @@ public class TileManager {
 
             for (int i = 50; i < 70; i++) {
                 tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/fish_shop/fish_shop_"+ (i-49) +".png"));
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/fish_shop/fish_shop_" + (i - 49) + ".png"));
                 tile[i].collision = true;
             }
 
@@ -114,7 +114,7 @@ public class TileManager {
 
             for (int i = 70; i < 78; i++) {
                 tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/pier/pier_"+ (i-69) +".png"));
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/pier/pier_" + (i - 69) + ".png"));
                 tile[i].collision = false;
             }
 
@@ -125,7 +125,7 @@ public class TileManager {
 
             for (int i = 78; i < 84; i++) {
                 tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_1/cart_"+ (i-77) +".png"));
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_1/cart_" + (i - 77) + ".png"));
                 tile[i].collision = true;
             }
 
@@ -133,7 +133,7 @@ public class TileManager {
 
             for (int i = 84; i < 90; i++) {
                 tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_2/cart_"+ (i-83) +".png"));
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_2/cart_" + (i - 83) + ".png"));
                 tile[i].collision = true;
             }
 
@@ -141,7 +141,7 @@ public class TileManager {
 
             for (int i = 90; i < 96; i++) {
                 tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_3/cart_"+ (i-89) +".png"));
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_3/cart_" + (i - 89) + ".png"));
                 tile[i].collision = true;
             }
 
@@ -149,15 +149,16 @@ public class TileManager {
 
             for (int i = 96; i < 102; i++) {
                 tile[i] = new Tile();
-                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_4/cart_"+ (i-95) +".png"));
+                tile[i].image = ImageIO.read(getClass().getResourceAsStream("/textures/block/cart_4/cart_" + (i - 95) + ".png"));
                 tile[i].collision = true;
             }
 
 
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     public void loadMap() {
         try {
             InputStream is = getClass().getResourceAsStream("/map/map.txt");
@@ -166,16 +167,16 @@ public class TileManager {
             int col = 0;
             int row = 0;
 
-            while(col < gp.maxWorldCol && row < gp.maxWorldRow) {
+            while (col < gp.maxWorldCol && row < gp.maxWorldRow) {
                 String line = br.readLine();
 
-                while(row < gp.maxWorldRow) {
+                while (row < gp.maxWorldRow) {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[row]);
                     mapTileNum[col][row] = num;
                     row++;
                 }
-                if(row == gp.maxWorldRow) {
+                if (row == gp.maxWorldRow) {
                     row = 0;
                     col++;
                 }
@@ -185,11 +186,12 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+
     public void draw(Graphics2D g2) {
         int worldCol = 0;
         int worldRow = 0;
 
-        while(worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
+        while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow) {
             int tileNum = mapTileNum[worldCol][worldRow];
 
             int worldX = worldRow * gp.tileSize;
@@ -197,15 +199,15 @@ public class TileManager {
             int screenX = worldX - gp.player.worldX + gp.player.screenX;
             int screenY = worldY - gp.player.worldY + gp.player.screenY;
 
-            if(worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
-               worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
-               worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
-               worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                    worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                    worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                    worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
                 g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
             }
             worldRow++;
 
-            if(worldRow == gp.maxWorldRow) {
+            if (worldRow == gp.maxWorldRow) {
                 worldRow = 0;
                 worldCol++;
             }

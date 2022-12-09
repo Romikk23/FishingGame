@@ -37,7 +37,7 @@ public class Fishing implements Runnable{
                 idCatch = 12;
                 Thread.sleep(4000);
                 bites = false;
-                restart();
+                player.isFishing = false;
             }
         } catch (InterruptedException ignored) {
 
@@ -49,9 +49,5 @@ public class Fishing implements Runnable{
         if(fishingThread.isAlive()) {
             fishingThread.interrupt();
         }
-    }
-
-    private void restart() {
-        fishingThread.start();
     }
 }
