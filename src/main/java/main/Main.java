@@ -2,11 +2,12 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
         JFrame window = new JFrame();
-        ImageIcon icon = new ImageIcon(Main.class.getResource("/textures/icon/icon_64x64.png"));
+        ImageIcon icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/textures/icon/icon_64x64.png")));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Fishing");

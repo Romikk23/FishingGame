@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends Entity {
     GamePanel gp;
@@ -69,20 +70,20 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/textures/player/player_right_2.png"));
+            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_up_1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_up_2.png")));
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_down_1.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_down_2.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_left_1.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_left_2.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_right_1.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_right_2.png")));
 
-            flashlight = ImageIO.read(getClass().getResourceAsStream("/textures/world/night/flashlight.png"));
+            flashlight = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/world/night/flashlight.png")));
 
 
             for (int i = 0; i < 4; i++) {
-                fishing_rot[i] = ImageIO.read(getClass().getResourceAsStream("/textures/overlay/fishing_1/fishing_" + (i + 1) + ".png"));
+                fishing_rot[i] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/overlay/fishing_1/fishing_" + (i + 1) + ".png")));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -239,15 +240,5 @@ public class Player extends Entity {
                 g2.drawImage(fishing_rot[2], screenX, screenY + (2 * gp.tileSize), gp.tileSize, gp.tileSize, null);
             }
         }
-
-//        if(flashlightOn){
-//            switch (direction) {
-//                case "up" -> g2.drawImage(ImageUtils.rotate(flashlight, 180), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-//                case "down" -> g2.drawImage(flashlight, screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-//                case "left" -> g2.drawImage(ImageUtils.rotate(flashlight, 90), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-//                case "right" -> g2.drawImage(ImageUtils.rotate(flashlight, 270), screenX-gp.tileSize*2, screenY-gp.tileSize*2, gp.tileSize*5, gp.tileSize*5, null);
-//            }
-//        }
-
     }
 }

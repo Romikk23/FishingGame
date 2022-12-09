@@ -1,9 +1,10 @@
 package entity.processes;
 
 import entity.Player;
+
 import java.util.Random;
 
-public class Fishing implements Runnable{
+public class Fishing implements Runnable {
     Player player;
     public boolean bites;
     int idBite;
@@ -16,6 +17,7 @@ public class Fishing implements Runnable{
         this.player = player;
         this.bites = false;
     }
+
     public void startFishing(int idBite) {
         fishingThread = new Thread(this);
         fishingThread.start();
@@ -26,7 +28,7 @@ public class Fishing implements Runnable{
     @Override
     public void run() {
         try {
-            if(!bites) {
+            if (!bites) {
                 Random rand = new Random();
                 switch (idBite) {
                     case 11 -> time = rand.nextInt((30 * 1000 - 15 * 1000) + 1) + 15 * 1000;
@@ -46,7 +48,7 @@ public class Fishing implements Runnable{
 
     public void interrupt() {
         bites = false;
-        if(fishingThread.isAlive()) {
+        if (fishingThread.isAlive()) {
             fishingThread.interrupt();
         }
     }

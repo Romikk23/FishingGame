@@ -8,72 +8,72 @@ public class KeyHandler implements KeyListener {
     public int selectedInventoryItem;
 
     @Override
-    public void keyTyped(KeyEvent e){
+    public void keyTyped(KeyEvent e) {
     }
 
     @Override
-    public void keyPressed(KeyEvent e){
+    public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_W){
+        if (code == KeyEvent.VK_W) {
             upPressed = true;
         }
-        if(code == KeyEvent.VK_S){
+        if (code == KeyEvent.VK_S) {
             downPressed = true;
         }
-        if(code == KeyEvent.VK_A){
+        if (code == KeyEvent.VK_A) {
             leftPressed = true;
         }
-        if(code == KeyEvent.VK_D){
+        if (code == KeyEvent.VK_D) {
             rightPressed = true;
         }
-        if(code >= KeyEvent.VK_1 && code <= KeyEvent.VK_6){
+        if (code >= KeyEvent.VK_1 && code <= KeyEvent.VK_6) {
             selectItemPressed = true;
-            selectedInventoryItem = code-48;
+            selectedInventoryItem = code - 48;
         }
-        if(code == KeyEvent.VK_P){
+        if (code == KeyEvent.VK_P) {
             plusPressed = true;
         }
-        if(code == KeyEvent.VK_O){
+        if (code == KeyEvent.VK_O) {
             minusPressed = true;
         }
-        if(code == KeyEvent.VK_G){
+        if (code == KeyEvent.VK_G) {
             gPressed = true;
         }
-        if(code == KeyEvent.VK_SPACE){
+        if (code == KeyEvent.VK_SPACE) {
             spacePressed = true;
         }
     }
 
     @Override
-    public void keyReleased(KeyEvent e){
+    public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_W){
+        if (code == KeyEvent.VK_W) {
             upPressed = false;
         }
-        if(code == KeyEvent.VK_S){
+        if (code == KeyEvent.VK_S) {
             downPressed = false;
         }
-        if(code == KeyEvent.VK_A){
+        if (code == KeyEvent.VK_A) {
             leftPressed = false;
         }
-        if(code == KeyEvent.VK_D){
+        if (code == KeyEvent.VK_D) {
             rightPressed = false;
         }
-        if(code >= KeyEvent.VK_1 && code <= KeyEvent.VK_6){
+        if (code >= KeyEvent.VK_1 && code <= KeyEvent.VK_6) {
             selectItemPressed = false;
         }
-        if(code == KeyEvent.VK_P){
+        if (code == KeyEvent.VK_P) {
             plusPressed = false;
         }
-        if(code == KeyEvent.VK_O){
+        if (code == KeyEvent.VK_O) {
             minusPressed = false;
         }
-        if(code == KeyEvent.VK_G){
+        if (code == KeyEvent.VK_G) {
             gPressed = false;
         }
-        if(code == KeyEvent.VK_SPACE){
+        if (code == KeyEvent.VK_SPACE) {
             spacePressed = false;
         }
     }

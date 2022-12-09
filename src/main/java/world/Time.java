@@ -15,11 +15,11 @@ public final class Time {
     }
 
     public void addMinute() {
-        if(minute < 59){
+        if (minute < 59) {
             minute++;
         } else {
             minute = 0;
-            if(hour < 23){
+            if (hour < 23) {
                 hour++;
             } else {
                 hour = 0;
@@ -33,14 +33,14 @@ public final class Time {
     }
 
     public static Time getInstance(int hour, int minute) {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Time(hour, minute);
         }
         return instance;
     }
 
     public static Time getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Time();
         }
         return instance;
@@ -48,8 +48,8 @@ public final class Time {
 
     @Override
     public String toString() {
-        String strHour = (hour >= 10 ? "":"0") + hour;
-        String strMinute = (minute >= 10 ? "":"0") + minute;
+        String strHour = (hour >= 10 ? "" : "0") + hour;
+        String strMinute = (minute >= 10 ? "" : "0") + minute;
         return strHour + ":" + strMinute;
     }
 }

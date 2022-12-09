@@ -2,9 +2,8 @@ package crypt;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
 public class Crypt {
@@ -17,12 +16,11 @@ public class Crypt {
             Cipher desCipher;
             desCipher = Cipher.getInstance("DES");
 
-            byte[] textByte = text.getBytes("UTF8");
+            byte[] textByte = text.getBytes(StandardCharsets.UTF_8);
 
             desCipher.init(Cipher.ENCRYPT_MODE, myDesKey);
-            byte[] textEncrypted = desCipher.doFinal(textByte);
-            return textEncrypted;
-        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | UnsupportedEncodingException | IllegalBlockSizeException | BadPaddingException e) {
+            return desCipher.doFinal(textByte);
+        } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();
         }
         return null;
@@ -38,16 +36,10 @@ public class Crypt {
             desCipher.init(Cipher.DECRYPT_MODE, myDesKey);
             byte[] textDecrypted = desCipher.doFinal(text);
 
-            String str = new String(textDecrypted);
-            return str;
+            return new String(textDecrypted);
         } catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public static void main(String[] args) throws NoSuchPaddingException, UnsupportedEncodingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        byte[] dec = encrypt("time: 22 12\ng");
-        System.out.println(decrypt(dec));
     }
 }

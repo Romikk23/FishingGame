@@ -18,8 +18,8 @@ public class Animation {
         this.gp = gp;
         time = Time.getInstance();
         tile = new Tile[3];
-        screenX = gp.screenWidth/2 - (gp.tileSize/2);
-        screenY = gp.screenHeight/2  - (gp.tileSize/2);
+        screenX = gp.screenWidth / 2 - (gp.tileSize / 2);
+        screenY = gp.screenHeight / 2 - (gp.tileSize / 2);
         getTileImage();
     }
 
@@ -31,22 +31,11 @@ public class Animation {
     private void getTileImage() {
 
     }
+
     private void skipDay(Graphics2D g2) {
-        if(gp.player.sleep) {
-            for(int k = 0; k < spriteCounter; k++) {
-                for (int j = 0; j < gp.maxScreenCol; j++) {
-                    g2.setColor(Color.black);
-                    g2.fillRect(j * gp.tileSize, k * gp.tileSize, gp.tileSize, gp.tileSize);
-                    g2.fillRect(j * gp.tileSize, (gp.maxScreenRow-k) * gp.tileSize, gp.tileSize, gp.tileSize);
-                }
-            }
-            spriteCounter++;
-            try {
-                Thread.sleep(70);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(spriteCounter == gp.maxScreenRow){
+        if (gp.player.sleep) {
+            animation(g2);
+            if (spriteCounter == gp.maxScreenRow) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -62,21 +51,9 @@ public class Animation {
     }
 
     private void animSave(Graphics2D g2) {
-        if(gp.player.animSave) {
-            for(int k = 0; k < spriteCounter; k++) {
-                for (int j = 0; j < gp.maxScreenCol; j++) {
-                    g2.setColor(Color.black);
-                    g2.fillRect(j * gp.tileSize, k * gp.tileSize, gp.tileSize, gp.tileSize);
-                    g2.fillRect(j * gp.tileSize, (gp.maxScreenRow-k) * gp.tileSize, gp.tileSize, gp.tileSize);
-                }
-            }
-            spriteCounter++;
-            try {
-                Thread.sleep(70);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if(spriteCounter == gp.maxScreenRow){
+        if (gp.player.animSave) {
+            animation(g2);
+            if (spriteCounter == gp.maxScreenRow) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -87,5 +64,21 @@ public class Animation {
             }
         }
 
+    }
+
+    private void animation(Graphics2D g2) {
+        for (int k = 0; k < spriteCounter; k++) {
+            for (int j = 0; j < gp.maxScreenCol; j++) {
+                g2.setColor(Color.black);
+                g2.fillRect(j * gp.tileSize, k * gp.tileSize, gp.tileSize, gp.tileSize);
+                g2.fillRect(j * gp.tileSize, (gp.maxScreenRow - k) * gp.tileSize, gp.tileSize, gp.tileSize);
+            }
+        }
+        spriteCounter++;
+        try {
+            Thread.sleep(70);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
