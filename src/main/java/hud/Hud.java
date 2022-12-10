@@ -6,6 +6,7 @@ import tile.Tile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -15,6 +16,8 @@ public class Hud {
     Tile[] numbers;
     Tile[] coins;
     Item[] itemsInventory;
+    BufferedImage sell;
+    BufferedImage[] buy;
     int invPosX = 4;
     int invPosY = 10;
 
@@ -23,6 +26,7 @@ public class Hud {
         tile = new Tile[9];
         numbers = new Tile[12];
         coins = new Tile[11];
+        buy = new BufferedImage[5];
         getTileImage();
     }
 
@@ -52,6 +56,15 @@ public class Hud {
 
             coins[10] = new Tile();
             coins[10].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/coin/coin.png")));
+
+            sell = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/sell/sellfish.png")));
+
+            buy[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/buy/buy_11.png")));
+            buy[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/buy/buy_20.png")));
+            buy[2] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/buy/buy_18.png")));
+            buy[3] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/buy/buy_19.png")));
+            buy[4] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/buy/buy_13.png")));
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,6 +96,12 @@ public class Hud {
         }
         drawInventoryItems(g2);
         drawCoins(g2);
+        if(gp.player.isSelling) {
+            drawSellHud(g2);
+        }
+        if(gp.player.isBuying) {
+            drawBuyHud(g2);
+        }
     }
 
     private void drawInventoryItems(Graphics2D g2) {
@@ -130,6 +149,22 @@ public class Hud {
             g2.drawImage(coins[numbCoins / 100].image, x * gp.tileSize, 0, gp.tileSize, gp.tileSize, null);
             g2.drawImage(coins[(numbCoins / 10) % 10].image, x * gp.tileSize + 22, 0, gp.tileSize, gp.tileSize, null);
             g2.drawImage(coins[numbCoins % 10].image, x * gp.tileSize + 44, 0, gp.tileSize, gp.tileSize, null);
+        }
+    }
+
+    private void drawSellHud(Graphics2D g2) {
+        g2.drawImage(sell, 3 * gp.tileSize, 2 * gp.tileSize, 9 * gp.tileSize, 6 * gp.tileSize, null);
+
+    }
+
+    private void drawBuyHud(Graphics2D g2) {
+        switch (gp.player.selectedPosShop) {
+            case 0 -> g2.drawImage(buy[0], 3 * gp.tileSize, 2 * gp.tileSize, 9 * gp.tileSize, 6 * gp.tileSize, null);
+            case 1 -> g2.drawImage(buy[1], 3 * gp.tileSize, 2 * gp.tileSize, 9 * gp.tileSize, 6 * gp.tileSize, null);
+            case 2 -> g2.drawImage(buy[2], 3 * gp.tileSize, 2 * gp.tileSize, 9 * gp.tileSize, 6 * gp.tileSize, null);
+            case 3 -> g2.drawImage(buy[3], 3 * gp.tileSize, 2 * gp.tileSize, 9 * gp.tileSize, 6 * gp.tileSize, null);
+            case 4 -> g2.drawImage(buy[4], 3 * gp.tileSize, 2 * gp.tileSize, 9 * gp.tileSize, 6 * gp.tileSize, null);
+
         }
     }
 }

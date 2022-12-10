@@ -30,10 +30,13 @@ public class Player extends Entity {
     public Inventory inventory = new Inventory();
     public int coins;
     public int selectedPositionInv;
+    public int selectedPosShop;
 
     public boolean sleep = false;
     public boolean animSave = false;
     public boolean isFishing = false;
+    public boolean isSelling = false;
+    public boolean isBuying = false;
     public boolean flashlightOn = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -60,6 +63,7 @@ public class Player extends Entity {
         speed = 4;
         SPEEDANIMATION = 15;
         selectedPositionInv = 1;
+        selectedPosShop = 0;
         direction = "down";
     }
 
@@ -129,6 +133,8 @@ public class Player extends Entity {
                 isFishing = false;
                 fishing.interrupt();
             }
+            isSelling = false;
+            isBuying = false;
         }
         if (keyH.selectItemPressed) {
             selectedPositionInv = keyH.selectedInventoryItem;
@@ -140,9 +146,20 @@ public class Player extends Entity {
                 save.makeSave();
                 if (time.hour >= 21 || time.hour <= 6) {
                     sleep = true;
+                    if (inventory.itemExist(11) == 0) {
+                        inventory.add(new Item(11, 10));
+                    } else {
+                        inventory.addAmount(inventory.itemExist(11), 10);
+                    }
                 } else {
                     animSave = true;
                 }
+            }
+            if ((worldX / gp.tileSize == 17 && worldY / gp.tileSize == 16) || (worldX / gp.tileSize == 16 && worldY / gp.tileSize == 16)) {
+                isSelling = true;
+            }
+            if ((worldY / gp.tileSize == 12) && (worldX / gp.tileSize >= 22 && worldX / gp.tileSize <= 29)) {
+                isBuying = true;
             }
             keyH.gPressed = false;
         }
@@ -150,7 +167,7 @@ public class Player extends Entity {
         if (keyH.spacePressed) {
             if ((worldX / gp.tileSize >= 7 && worldX / gp.tileSize <= 9) && worldY / gp.tileSize == 29) {
                 if (!isFishing) {
-                    if (selectedPositionInv <= inventory.size() && (inventory.get(selectedPositionInv).id == 11)) {
+                    if (selectedPositionInv <= inventory.size() && ((inventory.get(selectedPositionInv).id == 11 || inventory.get(selectedPositionInv).id == 18 || inventory.get(selectedPositionInv).id == 19 || inventory.get(selectedPositionInv).id == 20))) {
                         spriteNum = 1;
                         isFishing = true;
                         fishing.startFishing(inventory.get(selectedPositionInv).id);
@@ -158,20 +175,101 @@ public class Player extends Entity {
                     }
                 } else {
                     if (fishing.bites) {
-                        int index = inventory.itemExist(12);
-                        if (index == 0) {
-                            inventory.add(new Item(12, 1));
-                        } else {
-                            inventory.addAmount(index);
-                        }
+                        inventory.addItemOrAddAmount(fishing.idCatch);
                     }
                     fishing.interrupt();
                     isFishing = false;
                 }
             }
+
+            if(isSelling) {
+                int itemId = inventory.get(selectedPositionInv).id;
+                switch (itemId) {
+                    case 12 -> {
+                        inventory.minusAmount(selectedPositionInv);
+                        coins += 3;
+                    }
+                    case 14 -> {
+                        inventory.minusAmount(selectedPositionInv);
+                        coins += 5;
+                    }
+                    case 15 -> {
+                        inventory.minusAmount(selectedPositionInv);
+                        coins += 15;
+                    }
+                    case 16 -> {
+                        inventory.minusAmount(selectedPositionInv);
+                        coins += 50;
+                    }
+                    case 17 -> {
+                        inventory.minusAmount(selectedPositionInv);
+                        coins += 100;
+                    }
+                }
+            }
+
+            if(isBuying) {
+                switch (selectedPosShop) {
+                    case 0 -> {
+                        if(coins >= 2) {
+                            if(inventory.addItemOrAddAmount(11)) {
+                                coins -= 2;
+                            }
+                        }
+                    }
+                    case 1 -> {
+                        if(coins >= 4) {
+                            if(inventory.addItemOrAddAmount(20)) {
+                                coins -= 4;
+                            }
+                        }
+                    }
+                    case 2 -> {
+                        if(coins >= 10) {
+                            if(inventory.addItemOrAddAmount(18)) {
+                                coins -= 10;
+                            }
+                        }
+                    }
+                    case 3 -> {
+                        if(coins >= 30) {
+                            if(inventory.addItemOrAddAmount(19)) {
+                                coins -= 30;
+                            }
+                        }
+                    }
+                    case 4 -> {
+                        if(coins >= 800) {
+                            if(inventory.itemExist(13) == -1) {
+                                if (inventory.addItemOrAddAmount(13)) {
+                                    inventory.remove(10);
+                                    coins -= 800;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
             keyH.spacePressed = false;
         }
-
+        if(isBuying) {
+            if (keyH.arrowLeftPressed) {
+                if (selectedPosShop > 0) {
+                    selectedPosShop--;
+                } else {
+                    selectedPosShop = 4;
+                }
+                keyH.arrowLeftPressed = false;
+            }
+            if (keyH.arrowRightPressed) {
+                if (selectedPosShop < 4) {
+                    selectedPosShop++;
+                } else {
+                    selectedPosShop = 0;
+                }
+                keyH.arrowRightPressed = false;
+            }
+        }
         flashlightOn = time.hour >= 21 || time.hour <= 7;
 
         /* GOD MODE START */
@@ -185,8 +283,16 @@ public class Player extends Entity {
                 inventory.minusAmount(selectedPositionInv);
                 keyH.minusPressed = false;
             }
+        } else {
+            if (keyH.plusPressed) {
+                time.setTime(time.hour+1, time.minute);
+                keyH.plusPressed = false;
+            }
+            if (keyH.minusPressed) {
+                time.setTime(time.hour-1, time.minute);
+                keyH.minusPressed = false;
+            }
         }
-
         /* GOD MODE END */
 
     }

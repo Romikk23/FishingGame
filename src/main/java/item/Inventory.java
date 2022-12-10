@@ -20,6 +20,12 @@ public class Inventory {
         return false;
     }
 
+    public void addAmount(int index, int k) {
+        for (int i = 0; i < k; i++) {
+            addAmount(index);
+        }
+    }
+
     public boolean minusAmount(int index) {
         int newIndex = itemExist(inventory.get(index - 1).id);
         if (newIndex != 0 && inventory.get(newIndex - 1).amount > 1) {
@@ -61,6 +67,22 @@ public class Inventory {
         }
     }
 
+    public boolean remove(int itemId) {
+        if(itemExist(itemId) != 0) {
+            inventory.remove(itemExist(itemId));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addItemOrAddAmount(int itemId) {
+        if (itemExist(itemId) != 0) {
+            return addAmount(itemExist(itemId));
+        } else {
+            return add(new Item(itemId, 1));
+        }
+    }
+
     public int size() {
         return inventory.size();
     }
@@ -80,4 +102,6 @@ public class Inventory {
     private boolean exist(int index) {
         return inventory.size() >= index && inventory.size() <= 6;
     }
+
+
 }

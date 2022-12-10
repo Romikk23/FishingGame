@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed, selectItemPressed, plusPressed, minusPressed, gPressed, spacePressed;
+    public boolean arrowLeftPressed, arrowRightPressed;
     public int selectedInventoryItem;
 
     @Override
@@ -43,6 +44,12 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_SPACE) {
             spacePressed = true;
         }
+        if (code == KeyEvent.VK_LEFT) {
+            arrowLeftPressed = true;
+        }
+        if (code == KeyEvent.VK_RIGHT) {
+            arrowRightPressed = true;
+        }
     }
 
     @Override
@@ -75,6 +82,12 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_SPACE) {
             spacePressed = false;
+        }
+        if (code == KeyEvent.VK_LEFT) {
+            arrowLeftPressed = false;
+        }
+        if (code == KeyEvent.VK_RIGHT) {
+            arrowRightPressed = false;
         }
     }
 }
