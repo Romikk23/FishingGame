@@ -11,8 +11,8 @@ public class Item {
 
     public Item(int id, int amount) {
         this.id = id;
-        if (amount == 0) {
-            this.amount = 1;
+        if(id == 10 || id == 13) {
+            this.amount = 0;
             this.isCountable = false;
         } else {
             this.amount = amount;

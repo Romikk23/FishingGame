@@ -79,7 +79,8 @@ public class GamePanel extends JPanel implements Runnable {
             if (System.currentTimeMillis() - lastMillis >= 2000) {
                 lastMillis = System.currentTimeMillis();
                 time.addMinute();
-                System.out.println(time);
+                System.out.print(time);
+                pos.log(player);
             }
         }
     }
@@ -87,7 +88,6 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         player.update();
         save.update();
-//        pos.log(player);
     }
 
     public void paintComponent(Graphics g) {

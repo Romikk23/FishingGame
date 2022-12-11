@@ -23,7 +23,7 @@ public class Hud {
 
     public Hud(GamePanel gp) {
         this.gp = gp;
-        tile = new Tile[9];
+        tile = new Tile[10];
         numbers = new Tile[12];
         coins = new Tile[11];
         buy = new BufferedImage[5];
@@ -43,6 +43,8 @@ public class Hud {
             }
             tile[8] = new Tile();
             tile[8].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/inventory/hud_inv_selected.png")));
+            tile[9] = new Tile();
+            tile[9].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/inventory/hud_inv_count.png")));
 
             for (int i = 0; i < 12; i++) {
                 numbers[i] = new Tile();
@@ -121,14 +123,15 @@ public class Hud {
     private void drawAmountOfItem(Graphics2D g2, int pointer, int x) {
         if (itemsInventory[pointer].isCountable) {
             if (itemsInventory[pointer].amount > 1) {
+                g2.drawImage(tile[9].image, x+6, invPosY * gp.tileSize +50, gp.tileSize, gp.tileSize, null);
                 if (itemsInventory[pointer].amount < 10) {
-                    g2.drawImage(numbers[itemsInventory[pointer].amount].image, x - 6, invPosY * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(numbers[itemsInventory[pointer].amount].image, x + 7, (invPosY * gp.tileSize) +50, gp.tileSize, gp.tileSize, null);
                 } else if (itemsInventory[pointer].amount >= 10 && itemsInventory[pointer].amount < 20) {
-                    g2.drawImage(numbers[10].image, x + 3, invPosY * gp.tileSize, gp.tileSize, gp.tileSize, null);
-                    g2.drawImage(numbers[itemsInventory[pointer].amount % 10].image, x + 3, invPosY * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(numbers[10].image, x + 12, invPosY * gp.tileSize + 50, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(numbers[itemsInventory[pointer].amount % 10].image, x + 14, invPosY * gp.tileSize + 50, gp.tileSize, gp.tileSize, null);
                 } else if (itemsInventory[pointer].amount == 20) {
-                    g2.drawImage(numbers[11].image, x + 3, invPosY * gp.tileSize, gp.tileSize, gp.tileSize, null);
-                    g2.drawImage(numbers[0].image, x + 3, invPosY * gp.tileSize, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(numbers[11].image, x + 12, invPosY * gp.tileSize + 50, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(numbers[0].image, x + 14, invPosY * gp.tileSize + 50, gp.tileSize, gp.tileSize, null);
                 }
             }
         }

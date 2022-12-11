@@ -183,27 +183,30 @@ public class Player extends Entity {
             }
 
             if(isSelling) {
-                int itemId = inventory.get(selectedPositionInv).id;
-                switch (itemId) {
-                    case 12 -> {
-                        inventory.minusAmount(selectedPositionInv);
-                        coins += 3;
-                    }
-                    case 14 -> {
-                        inventory.minusAmount(selectedPositionInv);
-                        coins += 5;
-                    }
-                    case 15 -> {
-                        inventory.minusAmount(selectedPositionInv);
-                        coins += 15;
-                    }
-                    case 16 -> {
-                        inventory.minusAmount(selectedPositionInv);
-                        coins += 50;
-                    }
-                    case 17 -> {
-                        inventory.minusAmount(selectedPositionInv);
-                        coins += 100;
+                if(inventory.size() >= selectedPositionInv) {
+                    int itemId = inventory.get(selectedPositionInv).id;
+
+                    switch (itemId) {
+                        case 12 -> {
+                            inventory.minusAmount(selectedPositionInv);
+                            coins += 3;
+                        }
+                        case 14 -> {
+                            inventory.minusAmount(selectedPositionInv);
+                            coins += 5;
+                        }
+                        case 15 -> {
+                            inventory.minusAmount(selectedPositionInv);
+                            coins += 15;
+                        }
+                        case 16 -> {
+                            inventory.minusAmount(selectedPositionInv);
+                            coins += 50;
+                        }
+                        case 17 -> {
+                            inventory.minusAmount(selectedPositionInv);
+                            coins += 100;
+                        }
                     }
                 }
             }

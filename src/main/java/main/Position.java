@@ -13,8 +13,8 @@ public class Position {
         int entityX = entity.worldX / gp.tileSize;
         int entityY = entity.worldY / gp.tileSize;
 
-        System.out.println("\nX: " + entityX +
-                "\nY: " + entityY);
+        System.out.println("  X:" + entityX +
+                " Y:" + entityY + "\n");
     }
 
 }
