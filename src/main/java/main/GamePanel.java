@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements Runnable {
     public CollisionChecker collisionChecker = new CollisionChecker(this);
     TileManager tileManager = new TileManager(this);
     Hud hud = new Hud(this);
-    Position pos = new Position(this);
+    Log logging = new Log(this);
     Animation anim = new Animation(this);
     DayCycle dayCycle = new DayCycle(this);
     Save save = new Save(this, player);
@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void startGameThread() {
         if (!save.getSave()) {
-            player.coins = 999;
+            player.coins = 15;
             player.inventory.add(new Item(10, 0));
             player.worldX = tileSize * 8;
             player.worldY = tileSize * 10;
@@ -84,8 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (System.currentTimeMillis() - lastMillis >= 2000) {
                 lastMillis = System.currentTimeMillis();
                 time.addMinute();
-                System.out.print(time);
-                pos.log(player);
+//                logging.log();
             }
             if (System.currentTimeMillis() - musicMillis >= 105*1000) {
                 musicMillis = System.currentTimeMillis();

@@ -103,5 +103,14 @@ public class Inventory {
         return inventory.size() >= index && inventory.size() <= 6;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < inventory.size(); i++) {
+            sb.append(inventory.get(i).id).append(" ").append(inventory.get(i).amount).append(" ,");
+        }
+        sb.substring(0, sb.length() - 2);
+        return sb.toString();
+    }
 
 }

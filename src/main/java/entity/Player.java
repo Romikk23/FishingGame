@@ -280,35 +280,26 @@ public class Player extends Entity {
         }
         flashlightOn = time.hour >= 21 || time.hour <= 7;
 
-        /* GOD MODE START */
-
-        if (selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
-            if (keyH.plusPressed) {
-                inventory.addAmount(selectedPositionInv);
-                keyH.plusPressed = false;
-            }
-            if (keyH.minusPressed) {
-                inventory.minusAmount(selectedPositionInv);
-                keyH.minusPressed = false;
-            }
-        } else {
-            if (keyH.plusPressed) {
-                time.setTime(time.hour+1, time.minute);
-                keyH.plusPressed = false;
-            }
-            if (keyH.minusPressed) {
-                time.setTime(time.hour-1, time.minute);
-                keyH.minusPressed = false;
-            }
-        }
-        /* GOD MODE END */
-
-
-        if (((worldX / gp.tileSize == 24 && worldY / gp.tileSize == 20) || ((worldY / gp.tileSize == 12) && (worldX / gp.tileSize >= 22 && worldX / gp.tileSize <= 29))  || ((worldX / gp.tileSize == 17 && worldY / gp.tileSize == 16) || (worldX / gp.tileSize == 16 && worldY / gp.tileSize == 16)) || ((worldY / gp.tileSize == 10) && (worldX / gp.tileSize >= 9 && worldX / gp.tileSize <= 11))) && !isGuiding && ! isBuying && !isSelling && !sleep) {
-            nearGuide = true;
-        } else {
-            nearGuide = false;
-        }
+//        if (selectedPositionInv <= inventory.size() && inventory.get(selectedPositionInv).isCountable) {
+//            if (keyH.plusPressed) {
+//                inventory.addAmount(selectedPositionInv);
+//                keyH.plusPressed = false;
+//            }
+//            if (keyH.minusPressed) {
+//                inventory.minusAmount(selectedPositionInv);
+//                keyH.minusPressed = false;
+//            }
+//        } else {
+//            if (keyH.plusPressed) {
+//                time.setTime(time.hour+1, time.minute);
+//                keyH.plusPressed = false;
+//            }
+//            if (keyH.minusPressed) {
+//                time.setTime(time.hour-1, time.minute);
+//                keyH.minusPressed = false;
+//            }
+//        }
+        nearGuide = ((worldX / gp.tileSize == 24 && worldY / gp.tileSize == 20) || ((worldY / gp.tileSize == 12) && (worldX / gp.tileSize >= 22 && worldX / gp.tileSize <= 29)) || ((worldX / gp.tileSize == 17 && worldY / gp.tileSize == 16) || (worldX / gp.tileSize == 16 && worldY / gp.tileSize == 16)) || ((worldY / gp.tileSize == 10) && (worldX / gp.tileSize >= 9 && worldX / gp.tileSize <= 11))) && !isGuiding && !isBuying && !isSelling && !sleep;
     }
 
     public void draw(Graphics2D g2) {

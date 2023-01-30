@@ -57,7 +57,7 @@ public class Save {
                 line = br.readLine();
             }
             br.close();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             return false;
         }
         return success;

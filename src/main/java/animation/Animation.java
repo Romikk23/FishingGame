@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.text.AttributedCharacterIterator;
 import java.util.Objects;
 
 public class Animation {

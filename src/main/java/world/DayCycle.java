@@ -11,7 +11,7 @@ import java.util.Objects;
 public class DayCycle {
     GamePanel gp;
     Tile night;
-    Time time;
+    public Time time;
 
 
     public DayCycle(GamePanel gp) {
@@ -30,7 +30,6 @@ public class DayCycle {
     }
 
     public void draw(Graphics2D g2) {
-        //System.out.println("       Another time: " + time.toString());
         if (time.hour >= 21 || time.hour <= 7) {
             for (int i = 0; i < gp.maxScreenCol; i++) {
                 for (int j = 0; j < gp.maxScreenRow; j++) {
