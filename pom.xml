@@ -5,12 +5,29 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.romikk</groupId>
-    <artifactId>FishingGame</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>Fishy</artifactId>
+    <version>0.1-Beta</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>main.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

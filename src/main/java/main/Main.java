@@ -7,19 +7,20 @@ import java.util.Objects;
 public class Main {
     public static void main(String[] args) {
         JFrame window = new JFrame();
-        ImageIcon icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/textures/icon/icon_64x64.png")));
+        ImageIcon iconMacOS = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/textures/icon/icon_macOS.png")));
+        ImageIcon iconWindows = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/textures/icon/icon_full.png")));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Fishy");
 
         // for windows and linux
-        window.setIconImage(icon.getImage());
+        window.setIconImage(iconWindows.getImage());
 
         // for macOS and other OS
         final Taskbar taskbar = Taskbar.getTaskbar();
 
         try {
-            taskbar.setIconImage(icon.getImage());
+            taskbar.setIconImage(iconMacOS.getImage());
         } catch (final UnsupportedOperationException e) {
             System.out.println("The os does not support: 'taskbar.setIconImage'");
         } catch (final SecurityException e) {
