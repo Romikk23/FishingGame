@@ -10,7 +10,7 @@ public class Main {
         ImageIcon icon = new ImageIcon(Objects.requireNonNull(Main.class.getResource("/textures/icon/icon_64x64.png")));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Fishing");
+        window.setTitle("Fishy");
 
         // for windows and linux
         window.setIconImage(icon.getImage());
