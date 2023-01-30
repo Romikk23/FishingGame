@@ -17,6 +17,8 @@ public class Hud {
     Tile[] coins;
     Item[] itemsInventory;
     BufferedImage sell;
+    BufferedImage guide;
+    BufferedImage g;
     BufferedImage[] buy;
     int invPosX = 4;
     int invPosY = 10;
@@ -60,6 +62,9 @@ public class Hud {
             coins[10].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/coin/coin.png")));
 
             sell = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/sell/sellfish.png")));
+            guide = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/guide/guide.png")));
+            g = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/guide/press_g.png")));
+
 
             buy[0] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/buy/buy_11.png")));
             buy[1] = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/hud/buy/buy_20.png")));
@@ -103,6 +108,12 @@ public class Hud {
         }
         if(gp.player.isBuying) {
             drawBuyHud(g2);
+        }
+        if(gp.player.isGuiding) {
+            drawGuideHud(g2);
+        }
+        if(gp.player.nearGuide) {
+            drawPressG(g2);
         }
     }
 
@@ -158,6 +169,14 @@ public class Hud {
     private void drawSellHud(Graphics2D g2) {
         g2.drawImage(sell, 3 * gp.tileSize, 2 * gp.tileSize, 9 * gp.tileSize, 6 * gp.tileSize, null);
 
+    }
+
+    private void drawGuideHud(Graphics2D g2) {
+        g2.drawImage(guide, 2 * gp.tileSize, 2 * gp.tileSize, 12 * gp.tileSize, 8 * gp.tileSize, null);
+
+    }
+    private void drawPressG(Graphics2D g2) {
+        g2.drawImage(g, (9 * gp.tileSize)-22, (5 * gp.tileSize)-10, gp.tileSize, gp.tileSize, null);
     }
 
     private void drawBuyHud(Graphics2D g2) {

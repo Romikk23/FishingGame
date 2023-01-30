@@ -59,8 +59,8 @@ public class Fishing implements Runnable {
         }
 
         switch (ropeId) {
-            case 10 -> time = rand.nextInt((35 * 1000 - 30 * 1000) + 1) + 30 * 1000;
-            case 13 -> time = rand.nextInt((25 * 1000 - 20 * 1000) + 1) + 20 * 1000;
+            case 10 -> time = rand.nextInt((40 * 1000 - 30 * 1000) + 1) + 30 * 1000;
+            case 13 -> time = rand.nextInt((30 * 1000 - 20 * 1000) + 1) + 20 * 1000;
             default -> time = rand.nextInt((40 * 1000 - 30 * 1000) + 1) + 30 * 1000;
         }
         return time;

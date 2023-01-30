@@ -37,6 +37,8 @@ public class Player extends Entity {
     public boolean isFishing = false;
     public boolean isSelling = false;
     public boolean isBuying = false;
+    public boolean isGuiding = false;
+    public boolean nearGuide = false;
     public boolean flashlightOn = false;
 
     public Player(GamePanel gp, KeyHandler keyH) {
@@ -135,13 +137,14 @@ public class Player extends Entity {
             }
             isSelling = false;
             isBuying = false;
+            isGuiding = false;
         }
         if (keyH.selectItemPressed) {
             selectedPositionInv = keyH.selectedInventoryItem;
         }
 
         if (keyH.gPressed) {
-            if (worldX / gp.tileSize == 21 && worldY / gp.tileSize == 29) {
+            if (worldX / gp.tileSize == 24 && worldY / gp.tileSize == 20) {
                 Save save = new Save(this);
                 save.makeSave();
                 if (time.hour >= 21 || time.hour <= 6) {
@@ -160,6 +163,9 @@ public class Player extends Entity {
             }
             if ((worldY / gp.tileSize == 12) && (worldX / gp.tileSize >= 22 && worldX / gp.tileSize <= 29)) {
                 isBuying = true;
+            }
+            if ((worldY / gp.tileSize == 10) && (worldX / gp.tileSize >= 9 && worldX / gp.tileSize <= 11)) {
+                isGuiding = true;
             }
             keyH.gPressed = false;
         }
@@ -243,9 +249,8 @@ public class Player extends Entity {
                     }
                     case 4 -> {
                         if(coins >= 800) {
-                            if(inventory.itemExist(13) == -1) {
-                                if (inventory.addItemOrAddAmount(13)) {
-                                    inventory.remove(10);
+                            if(inventory.itemExist(13) == 0) {
+                                if (inventory.addItemOrAddAmount(13) && inventory.remove(10)) {
                                     coins -= 800;
                                 }
                             }
@@ -298,6 +303,12 @@ public class Player extends Entity {
         }
         /* GOD MODE END */
 
+
+        if (((worldX / gp.tileSize == 24 && worldY / gp.tileSize == 20) || ((worldY / gp.tileSize == 12) && (worldX / gp.tileSize >= 22 && worldX / gp.tileSize <= 29))  || ((worldX / gp.tileSize == 17 && worldY / gp.tileSize == 16) || (worldX / gp.tileSize == 16 && worldY / gp.tileSize == 16)) || ((worldY / gp.tileSize == 10) && (worldX / gp.tileSize >= 9 && worldX / gp.tileSize <= 11))) && !isGuiding && ! isBuying && !isSelling && !sleep) {
+            nearGuide = true;
+        } else {
+            nearGuide = false;
+        }
     }
 
     public void draw(Graphics2D g2) {

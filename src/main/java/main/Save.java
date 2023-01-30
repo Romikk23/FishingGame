@@ -58,7 +58,7 @@ public class Save {
             }
             br.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            return false;
         }
         return success;
     }

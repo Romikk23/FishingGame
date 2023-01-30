@@ -69,7 +69,7 @@ public class Inventory {
 
     public boolean remove(int itemId) {
         if(itemExist(itemId) != 0) {
-            inventory.remove(itemExist(itemId));
+            inventory.remove(itemExist(itemId)-1);
             return true;
         }
         return false;

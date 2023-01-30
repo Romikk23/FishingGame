@@ -154,6 +154,21 @@ public class TileManager {
                 tile[i].collision = true;
             }
 
+            /*      Fire      */
+
+            for (int i = 102; i < 122; i++) {
+                tile[i] = new Tile();
+                tile[i].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/block/fire/fire_" + (i - 101) + ".png")));
+                tile[i].collision = true;
+            }
+
+            /*     Gid      */
+
+            tile[103] = new Tile();
+            tile[103].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/npc/gid.png")));
+            tile[103].collision = true;
+
+
 
         } catch (IOException e) {
             e.printStackTrace();

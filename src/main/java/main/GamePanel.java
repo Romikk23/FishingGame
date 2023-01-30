@@ -25,6 +25,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxWorldCol = 43;
     public final int maxWorldRow = 38;
 
+    private boolean firstStart = true;
+
     //FPS
     final int FPS = 60;
 
@@ -39,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
     Animation anim = new Animation(this);
     DayCycle dayCycle = new DayCycle(this);
     Save save = new Save(this, player);
+    SoundPlayer soundPlayer = new SoundPlayer();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -56,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
             player.worldX = tileSize * 8;
             player.worldY = tileSize * 10;
         }
+        soundPlayer.playMusic("music.wav");
         gameThread = new Thread(this);
         gameThread.start();
     }
@@ -67,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable {
         long lastTime = System.nanoTime();
         long currentTime;
         long lastMillis = System.currentTimeMillis();
+        long musicMillis = System.currentTimeMillis();
         while (gameThread != null) {
             currentTime = System.nanoTime();
             delta += (currentTime - lastTime) / drawInterval;
@@ -82,6 +87,10 @@ public class GamePanel extends JPanel implements Runnable {
                 System.out.print(time);
                 pos.log(player);
             }
+            if (System.currentTimeMillis() - musicMillis >= 105*1000) {
+                musicMillis = System.currentTimeMillis();
+                soundPlayer.playMusic("music.wav");
+            }
         }
     }
 
@@ -93,11 +102,20 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        tileManager.draw(g2);
-        player.draw(g2);
-        hud.draw(g2);
-        anim.drawAnimation(g2);
-        dayCycle.draw(g2);
-        g2.dispose();
+        if(firstStart) {
+            if(anim.loading(g2)) {
+                g2.dispose();
+            } else {
+                firstStart = false;
+            }
+
+        } else {
+            tileManager.draw(g2);
+            player.draw(g2);
+            hud.draw(g2);
+            anim.drawAnimation(g2);
+            dayCycle.draw(g2);
+            g2.dispose();
+        }
     }
 }
