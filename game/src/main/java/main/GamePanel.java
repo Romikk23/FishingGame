@@ -56,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (!save.getSave()) {
             player.coins = 15;
             player.inventory.add(new Item(10, 0));
-            player.worldX = tileSize * 8;
+            player.worldX = tileSize * 9;
             player.worldY = tileSize * 10;
         }
         soundPlayer.playMusic("music.wav");
@@ -101,20 +101,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        if(firstStart) {
-            if(anim.loading(g2)) {
-                g2.dispose();
-            } else {
-                firstStart = false;
-            }
-
-        } else {
-            tileManager.draw(g2);
-            player.draw(g2);
-            hud.draw(g2);
-            anim.drawAnimation(g2);
-            dayCycle.draw(g2);
-            g2.dispose();
-        }
+        tileManager.draw(g2);
+        player.draw(g2);
+        hud.draw(g2);
+        anim.drawAnimation(g2);
+        dayCycle.draw(g2);
+        g2.dispose();
     }
 }

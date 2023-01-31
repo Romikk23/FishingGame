@@ -56,30 +56,6 @@ public class Animation {
 
     }
 
-    public boolean loading(Graphics2D g2) {
-        g2.setColor(Color.black);
-        g2.fillRect(0, 0, 600, 600);
-        BufferedImage bi = null;
-        try {
-            if(pos){
-                bi = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_right_1.png")));
-            } else {
-                bi = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/textures/player/player_right_2.png")));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(i < 768) {
-            if (i % 30 == 0) {
-                pos = !pos;
-            }
-            g2.drawImage(bi, i, 576/2, 128, 128, null);
-            i += 3;
-            return true;
-        }
-        return false;
-    }
-
     private void animSave(Graphics2D g2) {
         if (gp.player.animSave) {
             animation(g2);

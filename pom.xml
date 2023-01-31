@@ -6,7 +6,12 @@
 
     <groupId>org.romikk</groupId>
     <artifactId>Fishy</artifactId>
+    <packaging>pom</packaging>
     <version>0.1-Beta</version>
+    <modules>
+        <module>loading</module>
+        <module>game</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

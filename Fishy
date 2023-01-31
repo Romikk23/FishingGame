@@ -1,8 +1,0 @@
-#!/bin/bash
-
-cd -- "$(dirname "$BASH_SOURCE")"
-
-mvn clean
-mvn compile
-mvn package
-java -jar target/Fishy-0.1-Beta.jar
