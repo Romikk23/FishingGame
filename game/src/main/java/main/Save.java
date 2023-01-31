@@ -25,7 +25,11 @@ public class Save {
     public boolean getSave() {
         boolean success = false;
         try {
-            InputStream is = getClass().getResourceAsStream("/saves/save.txt");
+            String path = System.getProperty("user.dir");
+            if(path.startsWith("game", path.length()-4)){
+                path = path.substring(0, path.length()-4);
+            }
+            InputStream is = new FileInputStream(path+"/saves/save.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(Objects.requireNonNull(is)));
             String line = br.readLine();
             while (line != null) {
@@ -71,7 +75,11 @@ public class Save {
 
     public void makeSave() {
         try {
-            FileWriter myWriter = new FileWriter("src/main/resources/saves/save.txt");
+            String path = System.getProperty("user.dir");
+            if(path.startsWith("game", path.length()-4)){
+                path = path.substring(0, path.length()-4);
+            }
+            FileWriter myWriter = new FileWriter(path+"/saves/save.txt");
             String str;
             str = byteToString(Objects.requireNonNull(Crypt.encrypt("time: " + time.hour + " " + time.minute)));
             myWriter.write(str + "\n");
