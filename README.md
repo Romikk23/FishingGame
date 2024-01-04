@@ -66,9 +66,7 @@ Linux/MacOS:
   
 Windows:
 
-Download .zip
-
-Unpacking and open directory
+    git clone https://github.com/Romikk23/FishingGame.git
 
 run Fishy.bat
 
